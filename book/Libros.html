@@ -27,7 +27,7 @@
   <div class="d-flex">
     <div id="sidebar">
       <div class="p-2">
-        <a href="#" class="navbar-brand text-center text-light w-100 p-4 border-bottom">
+        <a href="index.html" class="navbar-brand text-center text-light w-100 p-4 border-bottom">
           Agregar logo
         </a>
       </div>
@@ -59,6 +59,7 @@
           <div class="collapse navbar-collapse" id="navbarsExample07XL">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item dropdown">
+                <a class="navbar-brand" href="index.html">Bienvenido</a>
               </li>
             </ul>
             <form class="form-inline my-2 my-md-0">
@@ -74,16 +75,114 @@
           </div>
         </div>
       </nav>
-      <section class="p-4">
+      <article>
+        <section class="p-4">
         <div class="container">
           <div class="row">
-            <div class="col-md-12">
-              <h2>CRUD alta, baja, edición</h2>
-              <a>Formulario de libros alta, baja, edición</a>
+            <div class="col-md-5"></div>
+            <div class="col-md-6">
+                <h2>Ingreso de Libros</h2>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Proveedores: </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  (Seleccione Proveedor)           
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" href="#">Action</a>
+                                  <a class="dropdown-item" href="#">Another action</a>
+                                  <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Autor: </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtNombre" class="focus" placeholder="Ingrese autor" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Titulo libro: </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtNombre" class="focus" placeholder="Ingrese titulo libro" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Año: </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control" id="txtAnio"  placeholder="Ingrese año(2022)" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Editorial: </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtNombre" class="focus" placeholder="Ingresa tu editorial" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-success">Success</button>
             </div>
           </div>
         </div>
-      </section>
+        </section>
+    </article>
     </div>
   </div>
   <!-- Optional JavaScript -->
