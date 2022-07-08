@@ -1,5 +1,5 @@
+var app = require('./app');
 
-console.log("Hola mundo!!!");
-console.log("Hola mundo soy fer!!!");
-
-console.log("Hola ramaa fucionar!!!");
+var server = app.listen(9000, function() {
+    console.log('Ready on port %d', server.address().port);
+});
