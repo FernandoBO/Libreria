@@ -13,5 +13,4 @@ router.get('/sql', function(req,res,next){
   console.log(res)
 })
 
-
 module.exports = router;
