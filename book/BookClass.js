@@ -10,8 +10,19 @@ async function SQLconn(){
     }
 }
 
+async function getBooks(){
+    try {
+        let pool = await sql.connect(config);
+        let res = await pool.request().query("SELECT * FROM LibInformacionLibrosVw (NOLOCK)")
+        return res.recordsets;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
-    SQLconn: SQLconn
+    SQLconn: SQLconn,
+    getBooks : getBooks
 }
 
 
