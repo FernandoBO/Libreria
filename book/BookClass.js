@@ -23,6 +23,16 @@ async function getBooks(){
     }
 };
 
+async function getProviders() {
+    try {
+        const pool = await sql.connect(config);
+        const data = await pool.request().query('dbo.LibProveedoresSPDts');
+        return data.recordsets;
+    } catch (error) {
+        console.log(error)
+    }
+};
+
 //Función para actualizar información
 async function putBook(BookID, {SupplierID, Author, BookTitle, Year, BookEditorial}){
     try {
@@ -77,6 +87,7 @@ async function deleteBook(BookID){
 module.exports = {
     SQLconn: SQLconn,
     getBooks : getBooks,
+    getProviders : getProviders,
     putBook : putBook,
     deleteBook : deleteBook
 }

@@ -4,8 +4,11 @@ var router = express.Router();
 const sql = require('../book/BookClass');
 
 router.get('/', function(req, res, next) {
+  // var fileName = './book/login';
+  // res.send();
+  // res.sendFile('./book/login.html', { root: '.' }, { msg: "logueo de usuario" });
   // res.send('Test respond with a resource');
-  // ahi voy a meter la redirección del login
+  // meter redirección del login
 });
 
 //Validamos que la conexión de base de datos sea correcta, accediendo a esta ruta 
@@ -23,6 +26,35 @@ router.get('/books', function(req, res, next){
     console.log(result[0])
   })
 });
+
+// Muestra dataSets de prveedores en la base de datos
+router.get("/providers", function (req, res) {
+  sql.getProviders().then((result) => {
+    res.json(result[0])
+    console.log(result[0])
+  })
+});
+
+// Autenticación de usuarios
+router.get("/authUsers", async (req, res) => {
+  const user = reFq.body.Nombre;
+  const password = req.body.Contrasena;
+});
+
+// Realiza la alta de un libro
+router.post("/registerBook", async (req, res) => {
+  var data = req.body;
+  console.log(data)
+  // const IDProveedor = req.body.IDProveedor;
+  // const Autor = req.body.Autor;
+  // const TituloLibro = req.body.TituloLibro;
+  // const Anio = req.body.Anio;
+  // const Editorial = req.body.Editorial;
+  sql.addNewBook().then((data) => {
+    res.json(data)
+  })
+});
+
 
 //Ruta para actualizar información de Libros
 router.route('/bookU/:ID').put((req,res) => {

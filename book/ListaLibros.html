@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-
+  
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -75,15 +75,39 @@
           </div>
         </div>
       </nav>
-      <section class="p-4">
+      <section class="p-3">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <h2>Lista</h2>
-              <a>Agregar un datatable para mostrar los datos de los libros</a>
+              <h2>Mi lista</h2>
             </div>
           </div>
         </div>
+      </section>
+      <section class="p-4">
+        <article>
+          <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <table id="BooksList" class="table table-bordered display">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Autor</th>
+                        <th>Libro</th>
+                        <th>Año</th>
+                        <th>Editorial</th>
+                    </tr>
+                </thead>
+                 <tbody id ="rows"> 
+                    <tr>
+                    </tr>
+                </tbody> 
+            </table>
+            </div>
+          </div>
+          </div>
+      </article>
       </section>
     </div>
   </div>
@@ -98,6 +122,46 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
   </script>
+<script>
+  const table = document.querySelector('rows');
+  const options = {
+    method:'POST'
+  }
+  // fetch ('http://localhost:9000/libros', options)
+  // fetch ('routes/lista.js', options)
+  // .then(data => data.json())
+  // .then(result => {
+
+  //   console.log(result);
+  //   // result.forEach(element => {
+  //   //   table.innerHTML += element =>{
+        
+  //   //   }
+  //   // });
+  // })
+//   $(document).ready(function() {
+//     var url = "http://localhost:9000/libros";
+//  $('#booksList').Datatable({ 
+//   "ajax": {
+//     "url": url, 
+//     "dataSrc": ""
+//   }, 
+//   "columns": [
+//     {"data": "NombreProveedor"},
+//     {"data": "Autor"},
+//     {"data": "TituloLibro"},
+//     {"data": "Anio"},
+
+//   ],
+// "columnsDefs": [{
+//   "targets":[2],
+//   render(v){
+//     return Number(v).toFixed(2);
+//   }
+// }]
+//   })
+//   })
+</script>
 </body>
 
 </html>
