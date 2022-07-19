@@ -43,7 +43,7 @@ router.get("/authUsers", async (req, res) => {
 
 // Realiza la alta de un libro
 router.route('/alta').post((req, res) => {
-  var data = req.body;
+  // var data = req.body;
   console.log(data)
   try {
     sql.add(req, res).then((result) => {

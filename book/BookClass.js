@@ -22,9 +22,20 @@ async function getBooks(){
         console.log(error)
     }
 };
+
+async function getProviders() {
+    try {
+        const pool = await sql.connect(config);
+        const data = await pool.request().query('dbo.LibProveedoresSPDts');
+        return data.recordsets;
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+// fumción para el alta de libros
 async function add(req, res){
     const {IDProveedor,Autor,TituloLibro, Anio, Editorial} = req.body;
-    console.log(TituloLibro);
       return new Promise(async function(resolve, reject) {
         try{
           let result = sql.connect(config, function() {
@@ -53,44 +64,7 @@ async function add(req, res){
         }
       });
   }
-async function getProviders() {
-    try {
-        const pool = await sql.connect(config);
-        const data = await pool.request().query('dbo.LibProveedoresSPDts');
-        return data.recordsets;
-    } catch (error) {
-        console.log(error)
-    }
-};
 
-
-async function addBook(req, res){
-    const {idProveedor, Author, BookTitle, Year, BookEditorial} = req.body;
-    try {
-        //Se agrega conexión para interactuar con la base de datos
-        sql.connect(config, function(){
-            //Se agrega parametros de entrara para indicar que información se va a actualizar
-            const request = new sql.request();
-            // request.input("IDLibro", sql.Int, BookID);
-            request.input("IDProveedor", sql.Int, idProveedor);
-            request.input("Autor", sql.VarChar(100), Author);
-            request.input("TituloLibro", sql.VarChar(100), BookTitle);
-            request.input("Anio", sql.Int, Year);
-            request.input("Editorial", sql.VarChar(100), BookEditorial);
-            console.log(idProveedor, Author, BookTitle, Year, BookEditorial);
-            //Se ejecuta el store procedure que edita información
-            request.execute('dbo.LibLibrosSPI', function(err, recordsets, returnValue, affected) {
-                if(err) console.log(err);
-                (async () => {
-                  console.log(recordsets);
-                })();
-                return 'Termina proceso';
-            });
-        });
-    } catch (error) {
-        console.log(error);
-    }
-};
 //Función para actualizar información
 async function putBook(BookID, {SupplierID, Author, BookTitle, Year, BookEditorial}){
     try {
