@@ -22,7 +22,37 @@ async function getBooks(){
         console.log(error)
     }
 };
-
+async function add(req, res){
+    const {IDProveedor,Autor,TituloLibro, Anio, Editorial} = req.body;
+    console.log(TituloLibro);
+      return new Promise(async function(resolve, reject) {
+        try{
+          let result = sql.connect(config, function() {
+            var AffectedRows = 0;
+            var Error = "";
+            var Result = 0;
+            var request = new sql.Request();
+            request.input('IDProveedor', sql.Int, IDProveedor);
+            request.input('Autor', sql.VarChar, Autor);
+            request.input('TituloLibro', sql.VarChar, TituloLibro);
+            request.input('Anio', sql.Int, Anio);
+            request.input('Editorial', sql.VarChar, Editorial);
+            request.execute('LibLibrosSPI', function(err, recordsets, returnValue, affected) {
+                if(err){
+                  reject(err);
+                }
+                if (typeof recordsets === 'undefined'){
+                  resolve('Fail '+'-'+IDProveedor);
+                }else{
+                  resolve('Ok '+'-'+IDProveedor);
+                }
+            });
+          });
+        }catch(err){
+          reject(err);
+        }
+      });
+  }
 async function getProviders() {
     try {
         const pool = await sql.connect(config);
@@ -33,6 +63,34 @@ async function getProviders() {
     }
 };
 
+
+async function addBook(req, res){
+    const {idProveedor, Author, BookTitle, Year, BookEditorial} = req.body;
+    try {
+        //Se agrega conexión para interactuar con la base de datos
+        sql.connect(config, function(){
+            //Se agrega parametros de entrara para indicar que información se va a actualizar
+            const request = new sql.request();
+            // request.input("IDLibro", sql.Int, BookID);
+            request.input("IDProveedor", sql.Int, idProveedor);
+            request.input("Autor", sql.VarChar(100), Author);
+            request.input("TituloLibro", sql.VarChar(100), BookTitle);
+            request.input("Anio", sql.Int, Year);
+            request.input("Editorial", sql.VarChar(100), BookEditorial);
+            console.log(idProveedor, Author, BookTitle, Year, BookEditorial);
+            //Se ejecuta el store procedure que edita información
+            request.execute('dbo.LibLibrosSPI', function(err, recordsets, returnValue, affected) {
+                if(err) console.log(err);
+                (async () => {
+                  console.log(recordsets);
+                })();
+                return 'Termina proceso';
+            });
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
 //Función para actualizar información
 async function putBook(BookID, {SupplierID, Author, BookTitle, Year, BookEditorial}){
     try {
@@ -88,6 +146,7 @@ module.exports = {
     SQLconn: SQLconn,
     getBooks : getBooks,
     getProviders : getProviders,
+    add : add,
     putBook : putBook,
     deleteBook : deleteBook
 }

@@ -42,17 +42,17 @@ router.get("/authUsers", async (req, res) => {
 });
 
 // Realiza la alta de un libro
-router.post("/registerBook", async (req, res) => {
+router.route('/alta').post((req, res) => {
   var data = req.body;
   console.log(data)
-  // const IDProveedor = req.body.IDProveedor;
-  // const Autor = req.body.Autor;
-  // const TituloLibro = req.body.TituloLibro;
-  // const Anio = req.body.Anio;
-  // const Editorial = req.body.Editorial;
-  sql.addNewBook().then((data) => {
-    res.json(data)
-  })
+  try {
+    sql.add(req, res).then((result) => {
+      console.log(result);
+      res.json(result);
+    })
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 
