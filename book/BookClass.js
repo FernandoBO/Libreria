@@ -34,7 +34,7 @@ async function getProviders() {
 };
 
 // fumción para el alta de libros
-async function add(req, res){
+async function addBook(req, res){
     const {IDProveedor,Autor,TituloLibro, Anio, Editorial} = req.body;
       return new Promise(async function(resolve, reject) {
         try{
@@ -120,7 +120,7 @@ module.exports = {
     SQLconn: SQLconn,
     getBooks : getBooks,
     getProviders : getProviders,
-    add : add,
+    addBook : addBook,
     putBook : putBook,
     deleteBook : deleteBook
 }
