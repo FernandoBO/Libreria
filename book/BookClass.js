@@ -33,6 +33,38 @@ async function getProviders() {
     }
 };
 
+// fumción para el alta de libros
+async function addBook(req, res){
+    const {IDProveedor,Autor,TituloLibro, Anio, Editorial} = req.body;
+      return new Promise(async function(resolve, reject) {
+        try{
+          let result = sql.connect(config, function() {
+            var AffectedRows = 0;
+            var Error = "";
+            var Result = 0;
+            var request = new sql.Request();
+            request.input('IDProveedor', sql.Int, IDProveedor);
+            request.input('Autor', sql.VarChar, Autor);
+            request.input('TituloLibro', sql.VarChar, TituloLibro);
+            request.input('Anio', sql.Int, Anio);
+            request.input('Editorial', sql.VarChar, Editorial);
+            request.execute('LibLibrosSPI', function(err, recordsets, returnValue, affected) {
+                if(err){
+                  reject(err);
+                }
+                if (typeof recordsets === 'undefined'){
+                  resolve('Fail '+'-'+IDProveedor);
+                }else{
+                  resolve('Ok '+'-'+IDProveedor);
+                }
+            });
+          });
+        }catch(err){
+          reject(err);
+        }
+      });
+  }
+
 //Función para actualizar información
 async function putBook(BookID, {IDProveedor, Autor, TituloLibro, Anio, Editorial}){
     return new Promise(async function(resolve, reject) {
@@ -127,6 +159,7 @@ module.exports = {
     SQLconn: SQLconn,
     getBooks : getBooks,
     getProviders : getProviders,
+    addBook : addBook,
     putBook : putBook,
     deleteBook : deleteBook
 }
