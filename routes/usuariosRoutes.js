@@ -65,13 +65,9 @@ router.route('/bookU/:ID').put((req,res) => {
 
 //Ruta para eliminar información de Libros
 router.route('/bookD/:ID').delete((req, res) => {
-    try {
       sql.deleteBook(req.params.ID).then((result) => {
         res.json(result);
       })
-    } catch (error) {
-      console.log(error);
-    }
 });
 
 module.exports = router;

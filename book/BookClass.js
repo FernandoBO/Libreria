@@ -34,53 +34,92 @@ async function getProviders() {
 };
 
 //Función para actualizar información
-async function putBook(BookID, {SupplierID, Author, BookTitle, Year, BookEditorial}){
+async function putBook(BookID, {IDProveedor, Autor, TituloLibro, Anio, Editorial}){
+    return new Promise(async function(resolve, reject) {
     try {
         //Se agrega conexión para interactuar con la base de datos
-        sql.connect(config, function(){
+        let result = sql.connect(config, function() {
+            var Error = "";
+            var Result = 0;
             //Se agrega parametros de entrara para indicar que información se va a actualizar
-            var request = new sql.request();
+            var request = new sql.Request();
             request.input("IDLibro", sql.Int, BookID);
-            request.input("IDProveedor", sql.Int, SupplierID);
-            request.input("Autor", sql.VarChar(100), Author);
-            request.input("TituloLibro", sql.VarChar(100), BookTitle);
-            request.input("Anio", sql.Int, Year);
-            request.input("Editorial", sql.VarChar(100), BookEditorial);
-            console.log(BookID, SupplierID, Author, BookTitle, Year, BookEditorial);
+            request.input("IDProveedor", sql.Int, IDProveedor);
+            request.input("Autor", sql.VarChar(100), Autor);
+            request.input("TituloLibro", sql.VarChar(100), TituloLibro);
+            request.input("Anio", sql.Int, Anio);
+            request.input("Editorial", sql.VarChar(100), Editorial);
+            request.output('IdResult', sql.Int, Result);
+            request.output('Result', sql.VarChar(1000), Error);
+            // console.log(BookID, IDProveedor, Autor, TituloLibro, Anio, Editorial, Result, Error);
             //Se ejecuta el store procedure que edita información
-            // request.execute('LibLibrosSPU', function(err, recordsets, returnValue, affected) {
-            //     if(err) console.log(err);
-            //     (async () => {
-            //       console.log(recordsets);
-            //     })();
-            //     return 'Termina proceso';
-            // });
+            request.execute('LibLibrosSPU', function(err, recordsets, returnValue, affected) {
+                if(err){
+                    reject(err);
+                  }
+                  if (typeof recordsets === 'undefined'){
+                    resolve('Fail '+ '-' + BookID);
+                  }else{
+                    resolve('Ok '+ '-' + BookID);
+                  }
+            });
         });
     } catch (error) {
         console.log(error);
     }
+    });
 };
 
 //Función para borrar por ID de libros
+// async function deleteBook(BookID){
+//     try {
+//         sql.connect(config, function(){
+//             //Se agrega parametros de entrara para indicar que ID's va a eliminar de Libros
+//             var request = new sql.Request()
+//             request.input('IDLibros', sql.Int, BookID);
+//             console.log(BookID);
+//             //Se ejecuta el store procedure que elimina información
+//             request.execute('LibLibroSPD', function(err, recordsets, returnValue, affected) {
+//             if(err) console.log(err);
+//                 (async () => {
+//                     console.log(recordsets);
+//                 })();
+//                 return 'Termina proceso';
+//             })
+//         })
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
+
 async function deleteBook(BookID){
-    try {
-        sql.connect(JSON.stringify(config), function(){
-            //Se agrega parametros de entrara para indicar que ID's va a eliminar de Libros
-            var request = new sql.Request()
-            request.input('IDLibros', sql.Int, BookID);
-            //Se ejecuta el store procedure que elimina información
-            request.execute('LibLibroSPD', function(err, recordsets, returnValue, affected) {
-            if(err) console.log(err);
-                (async () => {
-                    console.log(recordsets);
-                })();
-                return 'Termina proceso';
-            })
-        })
-    } catch (error) {
-        console.log(error);
-    }
-};
+          return new Promise(async function(resolve, reject) {
+            try{
+                let result = sql.connect(config, function() {
+                var AffectedRows = 0;
+                var Error = "";
+                var Result = 0;
+                var request = new sql.Request();
+                request.input('IDLibros', sql.Int, BookID);
+                request.output('IdResult', sql.Int, Result);
+                request.output('Result', sql.VarChar(1000), Error);
+                request.execute('LibLibroSPD', function(err, recordsets, returnValue, affected) {
+                    if(err){
+                      reject(err);
+                    }
+                    if (typeof recordsets === 'undefined'){
+                      resolve('Fail '+'-'+BookID);
+                    }else{
+                      resolve('Ok '+'-'+BookID);
+                    }
+                });
+              });
+            }catch(err){
+              reject(err);
+            }
+          });
+}
+
 
 
 //Exportación de funciones para

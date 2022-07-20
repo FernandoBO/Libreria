@@ -1,4 +1,3 @@
-var sql = require('mssql');
  var sqlConfig = {
     user: 'interfase',
     password: 'G1nt3rf4s3',
