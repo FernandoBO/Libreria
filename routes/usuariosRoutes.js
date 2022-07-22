@@ -36,9 +36,20 @@ router.get("/providers", function (req, res) {
 });
 
 // Autenticación de usuarios
-router.get("/authUsers", async (req, res) => {
-  const user = reFq.body.Nombre;
-  const password = req.body.Contrasena;
+router.route('/authUsers').post((req, res) => {
+  var data = req.body;
+  console.log(data)
+  try {
+    // sql.authentication(Nombre,Contrasena)
+    // sql.authentication({params:{Nombre: data.Nombre, Contrasena: data.Contrasena}})
+    sql.authentication(req, res)
+    .then((result) => {
+      console.log(result);
+      res.json(result);
+    })
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // Realiza la alta de un libro
