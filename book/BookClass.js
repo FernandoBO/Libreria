@@ -1,5 +1,5 @@
-const config = require('../config/config')
-const sql = require('mssql')
+const config = require('../config/config');
+const sql = require('mssql');
 
 async function SQLconn() {
   try {
@@ -11,38 +11,38 @@ async function SQLconn() {
 };
 
 async function authentication(req, res) {
-  const {Nombre, Contrasena} = req.body;
+  const { Nombre, Contrasena } = req.body;
 
   try {
     return new Promise(async function (resolve, reject) {
       try {
         let result = sql.connect(config, function () {
-          var AffectedRows = 0;
+          var Existe = 0;
           var Error = "";
           var Result = 0;
           var request = new sql.Request();
           request.input('Nombre', sql.VarChar, Nombre);
           request.input('Contrasena', sql.VarChar, Contrasena);
-          //request.output('Existe', sql.Int, Existe);
+          request.output('Existe', sql.Int, Existe);
           request.output('IdResult', sql.Int, Result);
           request.output('Result', sql.VarChar(1000), Error);
-          request.execute('ValidaUsuario'  , function (err, recordsets, returnValue, affected) {
-            if(err) console.log(err);
-            (async() => {
-               var existe = recordsets.recordset[1].existe
-                console.log(existe);
+          request.execute('ValidaUsuario', function (err, recordsets, returnValue, affected) {
+            if (err) console.log(err);
+            (async () => {
+              const existe = recordsets.recordset[0].Existe;
+              console.log(existe);
             });
-          // console.log(recordsets);
 
-            if (typeof recordset == 1 ) {
+            if (typeof recordsets == undefined || 0) {
+              console.log(recordsets);
               resolve('nombre indefinido ');
-              
+
             } else {
               resolve('Ok ');
             }
             // if (typeof recordsets.Contrasena === 'undefined' || recordsets.Contrasena == null || recordsets.Contrasena === '' ) {
             //   resolve('contraseña indefinida ');
-              
+
             // } else {
             //   resolve('Ok ');
             // }
@@ -56,6 +56,24 @@ async function authentication(req, res) {
     console.log(error)
   }
 };
+
+async function ensureToken(req, res, next) {
+  const bearerHeader = req.headers['authorization'];
+  console.log(bearerHeader);
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next();
+
+   }else {
+    // access denied 
+    res.sendSatus(403)
+    // res.json ({
+    //   text: 'access denied'
+    // });
+  }
+}
 
 //Obtención de todos los libros por Vista en SQL
 async function getBooks() {
@@ -205,6 +223,7 @@ async function deleteBook(BookID) {
 module.exports = {
   SQLconn: SQLconn,
   authentication: authentication,
+  ensureToken: ensureToken,
   getBooks: getBooks,
   getProviders: getProviders,
   addBook: addBook,
