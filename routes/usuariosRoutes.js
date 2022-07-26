@@ -45,11 +45,21 @@ router.route('/getToken').post((req, res) => {
 });
 
 
-router.get('/tokenVerify', ensureToken, (req, res) =>{
+router.get('/tokenVerify', ensureToken, (req, res) => {
 
-  res.json({
-    text: 'Protected by Token'
-  })
+  jwt.verify(req.token, 'TokenSecretKey', (err, data) => {
+    if (err) {
+      res.sendStatus(403);
+    }else {
+      res.json({
+        text: 'Protected by Token',
+        data : data
+      })
+    }
+  });
+  // res.json({
+  //   text: 'Protected by Token'
+  // })
 });
 
 function ensureToken(req, res, next) {
@@ -61,7 +71,7 @@ function ensureToken(req, res, next) {
     req.token = bearerToken;
     next();
 
-   }else {
+  } else {
     // access denied 
     res.sendStatus(403)
     // res.json ({

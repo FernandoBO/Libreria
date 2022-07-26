@@ -57,24 +57,6 @@ async function authentication(req, res) {
   }
 };
 
-async function ensureToken(req, res, next) {
-  const bearerHeader = req.headers['authorization'];
-  console.log(bearerHeader);
-  if (typeof bearerHeader !== 'undefined') {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
-    next();
-
-   }else {
-    // access denied 
-    res.sendSatus(403)
-    // res.json ({
-    //   text: 'access denied'
-    // });
-  }
-}
-
 //Obtención de todos los libros por Vista en SQL
 async function getBooks() {
   try {
@@ -223,7 +205,6 @@ async function deleteBook(BookID) {
 module.exports = {
   SQLconn: SQLconn,
   authentication: authentication,
-  ensureToken: ensureToken,
   getBooks: getBooks,
   getProviders: getProviders,
   addBook: addBook,
